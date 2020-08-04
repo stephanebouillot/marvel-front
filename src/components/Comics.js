@@ -64,8 +64,13 @@ const Comics = (props) => {
           },
         }
       );
+      alert("Added to favoris");
     } catch (err) {
-      console.error("Error");
+      if (err.response.data.error) {
+        alert(err.response.data.error.message);
+      } else {
+        alert("Error");
+      }
     }
   };
 
