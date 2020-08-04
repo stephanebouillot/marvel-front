@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import NavBas from "./NavBas";
 
 import Cookies from "js-cookie";
 
@@ -9,9 +8,10 @@ const Favoris = (props) => {
 
   const [favorisCharacters, setFavorisCharacters] = useState([]);
   const [favorisComics, setFavorisComics] = useState([]);
-  const [countCharacters, setCountCharacters] = useState(0);
-  const [countComics, setCountComics] = useState(0);
-  const [page, setPage] = useState(1);
+  // const [countCharacters, setCountCharacters] = useState(0);
+  // const [countComics, setCountComics] = useState(0);
+  // const [page, setPage] = useState(1);
+  const page = 1;
   const charactersByPage = 20;
   const comicsByPage = 20;
 
@@ -48,10 +48,10 @@ const Favoris = (props) => {
       );
 
       setFavorisCharacters(responseCharacters.data.favoris);
-      setCountCharacters(responseCharacters.data.count);
+      // setCountCharacters(responseCharacters.data.count);
 
       setFavorisComics(responseComics.data.favoris);
-      setCountComics(responseComics.data.count);
+      // setCountComics(responseComics.data.count);
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -59,8 +59,50 @@ const Favoris = (props) => {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseCharacters = await axios.get(
+          "https://stephanemarvel.herokuapp.com/favoris",
+
+          {
+            params: {
+              type: "character",
+              offset: (page - 1) * charactersByPage,
+              limit: charactersByPage,
+            },
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+
+        const responseComics = await axios.get(
+          "https://stephanemarvel.herokuapp.com/favoris",
+
+          {
+            params: {
+              type: "comic",
+              offset: (page - 1) * comicsByPage,
+              limit: comicsByPage,
+            },
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+
+        setFavorisCharacters(responseCharacters.data.favoris);
+        // setCountCharacters(responseCharacters.data.count);
+
+        setFavorisComics(responseComics.data.favoris);
+        // setCountComics(responseComics.data.count);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     fetchData();
-  }, [page]);
+  }, []);
 
   const deletefavoris = async (type, id) => {
     try {
@@ -78,9 +120,9 @@ const Favoris = (props) => {
     }
   };
 
-  const changePage = async (newPage) => {
-    setPage(newPage);
-  };
+  // const changePage = async (newPage) => {
+  //   setPage(newPage);
+  // };
 
   if (loading) {
     return <div>Loading...</div>;
