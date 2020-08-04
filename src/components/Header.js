@@ -1,9 +1,11 @@
 import React from "react";
 import logo from "../img/logomarvel.png";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Header = (props) => {
+  let history = useHistory();
+
   return (
     <>
       <div className="header">
@@ -30,7 +32,13 @@ const Header = (props) => {
 
         <div className="inscriptionconnexion">
           {props.loggedIn ? (
-            <div className="deconnexion" onClick={props.onLogOut}>
+            <div
+              className="deconnexion"
+              onClick={() => {
+                props.onLogOut();
+                history.push("/");
+              }}
+            >
               Deconnexion
             </div>
           ) : (

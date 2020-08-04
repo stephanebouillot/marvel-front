@@ -70,8 +70,13 @@ const Characters = (props) => {
           },
         }
       );
+      alert("Added to favoris");
     } catch (err) {
-      console.error("Error");
+      if (err.response.data.error) {
+        alert(err.response.data.error.message);
+      } else {
+        alert("Error");
+      }
     }
   };
   return (
@@ -92,6 +97,20 @@ const Characters = (props) => {
               {character.description === "" ? (
                 <div className="big-infos">
                   <div className="big-title">{character.name}</div>
+                  {props.loggedIn ? (
+                    <div
+                      className="favoris"
+                      onClick={() => {
+                        gofavorisback(character.id);
+                      }}
+                    >
+                      <i class="fas fa-star">
+                        <span>Ajouter aux favoris</span>
+                      </i>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               ) : (
                 <div className="infos">
@@ -119,13 +138,12 @@ const Characters = (props) => {
             </li>
           ))}
         </ul>
+        <NavBas
+          page={page}
+          pages={Math.ceil(count / charactersByPage)}
+          changePage={changePage}
+        />
       </div>
-
-      <NavBas
-        page={page}
-        pages={Math.ceil(count / charactersByPage)}
-        changePage={changePage}
-      />
     </>
   );
 };

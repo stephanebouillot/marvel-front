@@ -107,13 +107,12 @@ const Comics = (props) => {
             </li>
           ))}
         </ul>
+        <NavBas
+          page={page}
+          pages={Math.ceil(count / comicsByPage)}
+          changePage={changePage}
+        />
       </div>
-
-      <NavBas
-        page={page}
-        pages={Math.ceil(count / comicsByPage)}
-        changePage={changePage}
-      />
     </>
   );
 };

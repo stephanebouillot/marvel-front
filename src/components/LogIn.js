@@ -37,9 +37,10 @@ const LogIn = (props) => {
               Cookies.set("token", response.data.token);
               props.onLogIn();
             } catch (err) {
-              console.error("Error");
-              if (err.response.data.error === "Unauthorized") {
-                alert("Mauvais mot de passe");
+              if (err.response.data.error) {
+                alert(err.response.data.error.message);
+              } else {
+                alert("Error");
               }
             }
           }}

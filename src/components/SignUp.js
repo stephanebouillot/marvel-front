@@ -44,8 +44,12 @@ const SignUp = (props) => {
               history.push("/");
               Cookies.set("token", response.data.token);
               props.onLogIn();
-            } catch (error) {
-              console.error(error.response.data);
+            } catch (err) {
+              if (err.response.data.error) {
+                alert(err.response.data.error.message);
+              } else {
+                alert("Error");
+              }
             }
           }}
           className="registerform"
