@@ -7,6 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const LogIn = (props) => {
+  // creation variable history pour??????????????/
   let history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -26,6 +27,7 @@ const LogIn = (props) => {
             }
 
             try {
+              // envoi des donnees de log vers la bdd pour validation ou pas
               const response = await axios.post(
                 "https://stephanemarvel.herokuapp.com/connexion",
                 {
@@ -33,8 +35,11 @@ const LogIn = (props) => {
                   password: password,
                 }
               );
+              // si validation ok affichage de la page par defaut
               history.push("/");
+              // creation du token
               Cookies.set("token", response.data.token);
+              // bouton en connecte
               props.onLogIn();
             } catch (err) {
               if (err.response.data.error) {
@@ -44,16 +49,11 @@ const LogIn = (props) => {
               }
             }
           }}
+          type="email"
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
         >
-          <label className="labellogin">Adresse email</label>
-          <input
-            className="saisieform"
-            placeholder=""
-            type="email"
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          />
           <label className="labellogin">Mot de passe</label>
           <input
             className="saisieform"
@@ -81,6 +81,7 @@ const LogIn = (props) => {
             className="buttonsignup"
             name="submit"
             onClick={() => {
+              // si pas de compte affichage de la page signup au clic du bouton
               history.push("/signup");
             }}
           >

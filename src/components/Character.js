@@ -63,7 +63,7 @@ const Character = (props) => {
           <div className="description">{character.description}</div>
         </div>
 
-        {/* afficHAGE DES comics lies au personnage  */}
+        {/* affichage des comics lies au personnage  */}
 
         <div classname="comics">Comics lies au personnage</div>
         <ul className="listecomics">

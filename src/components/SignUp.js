@@ -30,25 +30,30 @@ const SignUp = (props) => {
               confirmpassword === ""
             ) {
               alert("veuillez remplir les champs vides");
-            }
-            try {
-              const response = await axios.post(
-                "https://stephanemarvel.herokuapp.com/signUp",
-                {
-                  username: username,
-                  email: email,
-                  password: password,
-                  confirmpassword: confirmpassword,
+            } else {
+              try {
+                // envoi des donnees saisis par l user vers la bdd
+                const response = await axios.post(
+                  "https://stephanemarvel.herokuapp.com/signUp",
+                  {
+                    username: username,
+                    email: email,
+                    password: password,
+                    confirmpassword: confirmpassword,
+                  }
+                );
+                // affichage de la page par default uen fois le formulaire d inscription valide
+                history.push("/");
+                // envoi des coockies
+                Cookies.set("token", response.data.token);
+                // passage du bouton en connecte
+                props.onLogIn();
+              } catch (err) {
+                if (err.response.data.error) {
+                  alert(err.response.data.error.message);
+                } else {
+                  alert("Error");
                 }
-              );
-              history.push("/");
-              Cookies.set("token", response.data.token);
-              props.onLogIn();
-            } catch (err) {
-              if (err.response.data.error) {
-                alert(err.response.data.error.message);
-              } else {
-                alert("Error");
               }
             }
           }}
